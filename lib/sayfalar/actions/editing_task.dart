@@ -8,10 +8,8 @@ import 'package:studioprojects/classes/taskdonot.dart';
 class EditTask extends StatefulWidget {
   late String? add;
   late int index;
-  EditTask({
-    required this.index,
-    required this.add,
-    Key? key}) : super(key: key);
+  EditTask({required this.index, required this.add, Key? key})
+      : super(key: key);
 
   @override
   _EditTaskState createState() => _EditTaskState();
@@ -20,11 +18,23 @@ class EditTask extends StatefulWidget {
 class _EditTaskState extends State<EditTask> {
   @override
   Widget build(BuildContext context) {
-    var formKey = GlobalKey<FormState>() ;
-    var titleController = TextEditingController(text: Hive.box<TaskDoNot>("taskDoNot").getAt(widget.index)!.title );
-    var descriptionController = TextEditingController(text: Hive.box<TaskDoNot>("taskDoNot").getAt(widget.index)!.description);
+    var formKey = GlobalKey<FormState>();
+    if (widget.add == "Do") {
+      var titleController = TextEditingController(
+          text: Hive.box<TaskDo>("taskDo").getAt(widget.index)!.title);
+      var descriptionController = TextEditingController(
+          text: Hive.box<TaskDo>("taskDo").getAt(widget.index)!.description);
+    } else {
+      var titleController = TextEditingController(
+          text: Hive.box<TaskDoNot>("taskDoNot").getAt(widget.index)!.title);
+      var descriptionController = TextEditingController(
+          text: Hive.box<TaskDoNot>("taskDoNot")
+              .getAt(widget.index)!
+              .description);
+    }
+
     print("girdieditign");
-    if (widget.add=="Do"){
+    if (widget.add == "Do") {
       print("do ya girdik");
       return Scaffold(
         appBar: AppBar(
@@ -41,22 +51,25 @@ class _EditTaskState extends State<EditTask> {
                   key: formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [TextFormField(
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return "yaz aq";
-                        }
-                      },
-                      controller: titleController,
-                      decoration: const InputDecoration(
-                        //label: Text("title"),
-                        //hintText: "add a title"
-                      ),
-                    ),
-                      const SizedBox(height: 20,),
+                    children: [
                       TextFormField(
-                        validator: (value){
-                          if(value!.isEmpty){
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "yaz aq";
+                          }
+                        },
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                            //label: Text("title"),
+                            //hintText: "add a title"
+                            ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
                             return "yaz aq";
                           }
                         },
@@ -64,124 +77,115 @@ class _EditTaskState extends State<EditTask> {
                         minLines: 1,
                         maxLines: 7,
                         decoration: const InputDecoration(
-                          //label: Text("description"),
-                          //hintText: "add a description"
-                        ),
+                            //label: Text("description"),
+                            //hintText: "add a description"
+                            ),
                       )
                     ],
                   ),
-
                 ),
               ),
             ],
-
-
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){
+          onPressed: () {
             print("girdiooooooooo");
-            if(formKey.currentState!.validate()){
-              if(widget.add == "Do"){
-                Hive.box<TaskDo>("taskDo").putAt(widget.index,TaskDo(titleController.text, descriptionController.text,false));
-                Navigator.of(context).pop();}else{
-                Hive.box<TaskDoNot>("taskDoNot").putAt(widget.index,TaskDoNot(titleController.text, descriptionController.text, false));
+            if (formKey.currentState!.validate()) {
+              if (widget.add == "Do") {
+                Hive.box<TaskDo>("taskDo").putAt(
+                    widget.index,
+                    TaskDo(titleController.text, descriptionController.text,
+                        false));
+                Navigator.of(context).pop();
+              } else {
+                Hive.box<TaskDoNot>("taskDoNot").putAt(
+                    widget.index,
+                    TaskDoNot(titleController.text, descriptionController.text,
+                        false));
                 Navigator.of(context).pop();
               }
-
             }
-
-
-
-
-
-
-
           },
           child: const Icon(Icons.edit_rounded),
         ),
       );
-    }else{
+    } else {
       print("donot a grdik");
       return Scaffold(
-      appBar: AppBar(
-        title: const Text("edit task"),
-        titleSpacing: 70,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [TextFormField(
-                    validator: (value){
-                      if(value!.isEmpty){
-                        return "Bos birakma aq";
-                      }
-                    },
-
-                    controller: titleController,
-                    decoration: const InputDecoration(
-                      //label: Text("title"),
-                      //hintText: "add a title"
-                    ),
-                  ),
-                    const SizedBox(height: 20,),
-                    TextFormField(
-                        validator: (value){
-                          if(value!.isEmpty){
+        appBar: AppBar(
+          title: const Text("edit task"),
+          titleSpacing: 70,
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
                             return "Bos birakma aq";
                           }
                         },
-                      controller: descriptionController,
-
-                      minLines: 1,
-                      maxLines: 7,
-                      decoration: const InputDecoration(
-                        //label: Text("description"),
-                        //hintText: "add a description"
+                        controller: titleController,
+                        decoration: const InputDecoration(
+                            //label: Text("title"),
+                            //hintText: "add a title"
+                            ),
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Bos birakma aq";
+                          }
+                        },
+                        controller: descriptionController,
+                        minLines: 1,
+                        maxLines: 7,
+                        decoration: const InputDecoration(
+                            //label: Text("description"),
+                            //hintText: "add a description"
+                            ),
+                      )
+                    ],
+                  ),
                 ),
-
               ),
-            ),
-          ],
-
-
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          print("girdiooooooooo");
-          if(formKey.currentState!.validate()){
-            if(widget.add == "Do"){
-              Hive.box<TaskDo>("taskDo").putAt(widget.index,TaskDo(titleController.text, descriptionController.text,false));
-              Navigator.of(context).pop();}else{
-              Hive.box<TaskDoNot>("taskDoNot").putAt(widget.index,TaskDoNot(titleController.text, descriptionController.text, false));
-              Navigator.of(context).pop();
-          }
-
-          }
-
-
-
-
-
-
-        },
-        child: const Icon(Icons.edit_rounded),
-      ),
-    );
-
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print("girdiooooooooo");
+            if (formKey.currentState!.validate()) {
+              if (widget.add == "Do") {
+                Hive.box<TaskDo>("taskDo").putAt(
+                    widget.index,
+                    TaskDo(titleController.text, descriptionController.text,
+                        false));
+                Navigator.of(context).pop();
+              } else {
+                Hive.box<TaskDoNot>("taskDoNot").putAt(
+                    widget.index,
+                    TaskDoNot(titleController.text, descriptionController.text,
+                        false));
+                Navigator.of(context).pop();
+              }
+            }
+          },
+          child: const Icon(Icons.edit_rounded),
+        ),
+      );
     }
-
-
   }
 }
