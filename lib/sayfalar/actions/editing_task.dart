@@ -19,22 +19,13 @@ class _EditTaskState extends State<EditTask> {
   @override
   Widget build(BuildContext context) {
     var formKey = GlobalKey<FormState>();
+
+    print("girdieditign");
     if (widget.add == "Do") {
       var titleController = TextEditingController(
           text: Hive.box<TaskDo>("taskDo").getAt(widget.index)!.title);
       var descriptionController = TextEditingController(
           text: Hive.box<TaskDo>("taskDo").getAt(widget.index)!.description);
-    } else {
-      var titleController = TextEditingController(
-          text: Hive.box<TaskDoNot>("taskDoNot").getAt(widget.index)!.title);
-      var descriptionController = TextEditingController(
-          text: Hive.box<TaskDoNot>("taskDoNot")
-              .getAt(widget.index)!
-              .description);
-    }
-
-    print("girdieditign");
-    if (widget.add == "Do") {
       print("do ya girdik");
       return Scaffold(
         appBar: AppBar(
@@ -111,6 +102,12 @@ class _EditTaskState extends State<EditTask> {
         ),
       );
     } else {
+      var titleController = TextEditingController(
+          text: Hive.box<TaskDoNot>("taskDoNot").getAt(widget.index)!.title);
+      var descriptionController = TextEditingController(
+          text: Hive.box<TaskDoNot>("taskDoNot")
+              .getAt(widget.index)!
+              .description);
       print("donot a grdik");
       return Scaffold(
         appBar: AppBar(
