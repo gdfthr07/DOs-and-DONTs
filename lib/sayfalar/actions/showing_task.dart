@@ -41,8 +41,11 @@ class _ShowTaskState extends State<ShowTask> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(box.description.toString(),
-                      style: const TextStyle(fontSize: 15) ,),
+                    Padding(
+                      padding: const EdgeInsets.all(14.53),
+                      child: Text(box.description.toString(),
+                        style: const TextStyle(fontSize: 15) ,),
+                    ),
                     const SizedBox(height: 20,),
                     RadioListTile(
 
